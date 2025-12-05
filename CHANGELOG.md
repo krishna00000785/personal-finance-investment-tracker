@@ -5,9 +5,9 @@ All notable changes to this project will be documented in this file.
 Project uses a YYYY.MM.II versioning schema (Year.Month.Increment - e.g 2023.11.01). The increment should
 increase by 1 for every new version and should drop back to 01 at the beginning of each month.
 
-## [Unreleased] -2025-XX-XX
+## [Unreleased] -2025-12-01
 ### Added
-- N/A
+- Initial documentation
 ### Fixed
 - N/A
 ### Changed

@@ -1,0 +1,62 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title System-Level Architecture for Personal Finance Investment Tracker
+
+' Bounding boxes for clarity
+System_Boundary(web_client, "Web Client") {
+    Container(react_app, "React App", "JavaScript, React", "The user's browser")
+}
+
+System_Boundary(api, "API Layer") {
+    Container(api_gateway, "API Gateway", "e.g., NGINX, Kong", "Routes requests to microservices")
+}
+
+System_Boundary(backend, "Backend Services") {
+    ContainerDb(auth_db, "Auth DB", "PostgreSQL", "Stores user credentials")
+    Container(auth_service, "Auth Service", "Go, Gin", "Handles authentication and user management")
+
+    ContainerDb(finance_db, "Finance DB", "PostgreSQL", "Stores financial data")
+    Container(finance_service, "Finance Service", "Go, Gin", "Manages accounts, transactions, categories")
+
+    ContainerDb(investment_db, "Investment DB", "PostgreSQL", "Stores investment data")
+    Container(investment_service, "Investment Service", "Go, Gin", "Manages investment portfolios")
+
+    ContainerDb(reporting_db, "Reporting DB", "PostgreSQL", "Stores aggregated reports")
+    Container(reporting_service, "Reporting Service", "Go, Gin", "Generates financial reports")
+
+    ContainerDb(notification_db, "Notification DB", "PostgreSQL", "Stores notification templates/logs")
+    Container(notification_service, "Notification Service", "Go, Gin", "Sends notifications")
+}
+
+System_Boundary(messaging, "Messaging") {
+    Container(kafka, "Kafka Cluster", "Apache Kafka", "Real-time data streaming")
+}
+
+System_Boundary(external, "External Systems") {
+    System_Ext(smtp, "Email Provider", "e.g., SendGrid, AWS SES")
+}
+
+' Relationships
+react_app --> api_gateway : "Makes API calls (HTTPS)"
+
+api_gateway --> auth_service : "Forwards auth requests"
+api_gateway --> finance_service : "Forwards finance requests"
+api_gateway --> investment_service : "Forwards investment requests"
+api_gateway --> reporting_service : "Forwards reporting requests"
+
+auth_service --> auth_db : "Reads/writes"
+finance_service --> finance_db : "Reads/writes"
+investment_service --> investment_db : "Reads/writes"
+reporting_service --> reporting_db : "Reads/writes"
+notification_service --> notification_db : "Reads/writes"
+
+reporting_service --> finance_service : "Fetches data (REST)"
+reporting_service --> investment_service : "Fetches data (REST)"
+
+reporting_service -> kafka : "Produces to 'weekly.statements' topic"
+notification_service -> kafka : "Consumes from 'weekly.statements' topic"
+
+notification_service --> smtp : "Sends email via API"
+
+@enduml

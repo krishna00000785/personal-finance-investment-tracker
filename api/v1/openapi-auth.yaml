@@ -16,8 +16,12 @@ components:
       bearerFormat: JWT
 
   schemas:
-    # Reference shared schemas from the external file
-    $ref: './components/schemas.yaml#/schemas'
+    Error:
+      $ref: './components/schemas.yaml#/schemas/Error'
+    User:
+      $ref: './components/schemas.yaml#/schemas/User'
+    AuthToken:
+      $ref: './components/schemas.yaml#/schemas/AuthToken'
 
 paths:
   /auth/signup:

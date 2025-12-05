@@ -16,8 +16,10 @@ components:
       bearerFormat: JWT
 
   schemas:
-    # Reference shared schemas from the external file
-    $ref: './components/schemas.yaml#/schemas'
+    Account:
+      $ref: './components/schemas.yaml#/schemas/Account'
+    Transaction:
+      $ref: './components/schemas.yaml#/schemas/Transaction'
 
 paths:
   /finance/accounts:

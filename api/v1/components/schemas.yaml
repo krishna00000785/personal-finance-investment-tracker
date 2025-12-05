@@ -1,7 +1,6 @@
 # api/v1/components/schemas.yaml
 
 schemas:
-  # --- COMMON TYPES ---
   Error:
     type: object
     properties:
@@ -20,8 +19,7 @@ schemas:
       - code
       - message
 
-# --- AUTH SERVICE MODELS (based on users table) ---
-User:
+  User:
     type: object
     required:
       - id
@@ -47,8 +45,7 @@ User:
       created_at:
         type: string
         format: date-time
-
-AuthToken:
+  AuthToken:
     type: object
     required:
       - token
@@ -60,10 +57,7 @@ AuthToken:
         type: integer
         example: 3600
         description: Seconds until the token expires
-
-# --- FINANCE SERVICE MODELS (based on accounts, categories, transactions tables) ---
-
-Account:
+  Account:
     type: object
     required:
       - name
@@ -89,7 +83,6 @@ Account:
         format: float
         description: Use float for display, but expect high-precision input from client
         example: 50000.00
-
   Category:
     type: object
     required:
@@ -107,7 +100,6 @@ Account:
         type: string
         enum: [INCOME, EXPENSE]
         example: EXPENSE
-
   Transaction:
     type: object
     required:
